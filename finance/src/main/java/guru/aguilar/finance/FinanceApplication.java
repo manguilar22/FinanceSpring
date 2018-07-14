@@ -7,36 +7,49 @@ import guru.aguilar.finance.imple.StockAnalysis;
 import guru.aguilar.finance.interfaces.Statistics;
 import guru.aguilar.finance.interfaces.Stock;
 import javafx.css.StyleableStringProperty;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
-
+@PropertySource("default.properties")
 @SpringBootApplication
-public class FinanceApplication {
+public class FinanceApplication implements CommandLineRunner{
 
 	public static void main(String[] args) throws Exception {
 		SpringApplication.run(FinanceApplication.class, args);
+	}
+
+	@Autowired
+	Environment env;
+
+	@Override
+	public void run(String... args) throws Exception {
 
 		AnnotationConfigApplicationContext aca = new AnnotationConfigApplicationContext(Finance.class);
 
-		ReadFile readFile = aca.getBean("readFile",ReadFile.class);
+		ReadFile readFile = aca.getBean(ReadFile.class);
 		FacebookStock  facebookStock =aca.getBean("facebook",FacebookStock.class);
-		StockAnalysis statistics = aca.getBean("analysis",StockAnalysis.class);
-
-        readFile.setFile("classpath:stocks/2018-07-0901:24:18.911302Facebook.txt");
 
 
-        List<Stock> facebook = readFile.getStock();
+		readFile.setFile(env.getProperty("facebook.2018-07-09"));
 
-        statistics.setMarketData(facebook, e -> e.getHigh());
+		List<Stock> facebook = readFile.getStock();
+		LinkedList<Map<?,?>> list = new LinkedList<>();
 
-        System.out.println("Summation:\t"+statistics.average());
+		facebookStock.setFacebookStock(facebook);
 
+		facebookStock.toMap().entrySet().forEach(System.out::println);
 
-        aca.close();
+		list.add(facebookStock.toMap());
+
+		aca.close();
 	}
 }

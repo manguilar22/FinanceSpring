@@ -26,4 +26,5 @@ public class Finance {
     @Bean
     public Statistics analysis(){ return  new StockAnalysis(); }
 
+
 }
