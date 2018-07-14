@@ -56,7 +56,7 @@ public class ReadFile  implements StockRead,ResourceLoaderAware {
         List<Stock> data = new ArrayList<>();
         Scanner in = new Scanner(file);
         String ts=String.valueOf(in.nextLine());
-        System.out.println("TimeStamp:\t"+ts);
+        System.out.println("Stock Timestamp:\t"+ts);
         while (in.hasNext()) {
             String [] stock = in.nextLine().split(",");
             data.add(new Stock(
