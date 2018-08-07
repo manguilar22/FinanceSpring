@@ -1,11 +1,14 @@
 package guru.aguilar.finance;
 
 import guru.aguilar.finance.POJO.FacebookStock;
+import guru.aguilar.finance.POJO.Nasdaq;
 import guru.aguilar.finance.POJO.ReadFile;
 import guru.aguilar.finance.config.Finance;
+import guru.aguilar.finance.imple.Sort;
 import guru.aguilar.finance.imple.StockAnalysis;
 import guru.aguilar.finance.interfaces.Statistics;
 import guru.aguilar.finance.interfaces.Stock;
+import javafx.css.StyleableStringProperty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -14,9 +17,8 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+
 @PropertySource("default.properties")
 @SpringBootApplication
 public class FinanceApplication implements CommandLineRunner{
@@ -26,36 +28,38 @@ public class FinanceApplication implements CommandLineRunner{
 	}
 
 	@Autowired
-	private Environment env;
+	Environment env;
+
+	private AnnotationConfigApplicationContext aca = new AnnotationConfigApplicationContext(Finance.class);
+	private ReadFile readFile = aca.getBean(ReadFile.class);
 
 	@Override
 	public void run(String... args) throws Exception {
 
-		AnnotationConfigApplicationContext aca = new AnnotationConfigApplicationContext(Finance.class);
-
-		ReadFile readFile = aca.getBean(ReadFile.class);
 		FacebookStock  facebookStock =aca.getBean("facebook",FacebookStock.class);
-		StockAnalysis analysis = aca.getBean("analysis",StockAnalysis.class);
 
-		//Stock Files
-		readFile.setFile(env.getProperty("facebook.2018-07-09"));
-		readFile.setFile(env.getProperty("google.2018-07-09"));
+		List<Stock> fb = getFacebookStock();
+		List<Stock> goog = getFacebookStock();
+		List<Nasdaq> nasdaq = getNasdaqStock();
 
-		List<Stock> google = readFile.getStock();
-		List<Stock> facebook = readFile.getStock();
+		fb.forEach(System.out::println);
+		goog.forEach(System.out::println);
+		nasdaq.forEach(System.out::println);
 
-		System.out.println(facebook.get(0));
-		System.out.println("------------------------------------");
-		System.out.println(google.get(0));
-		/*
-		LinkedList<Map<?,?>> list = new LinkedList<>();
-
-		facebookStock.setFacebookStock(facebook);
-
-		facebookStock.toMap().entrySet().forEach(System.out::println);
-
-		list.add(facebookStock.toMap());
-		*/
 		aca.close();
 	}
+
+	private List<Stock> getGoogleStock() throws Exception{
+		this.readFile.setFile(env.getProperty("google.2018-07-09"));
+		return this.readFile.getStock();
+	}
+	private List<Stock> getFacebookStock() throws Exception{
+		this.readFile.setFile(env.getProperty("facebook.2018-07-09"));
+		return this.readFile.getStock();
+	}
+	private List<Nasdaq> getNasdaqStock() throws Exception{
+		this.readFile.setFile(env.getProperty("nasdaq.2018-08-07"));
+		return this.readFile.getNasdaq();
+	}
 }
+

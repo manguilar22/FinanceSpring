@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -55,10 +56,10 @@ public class ReadFile  implements StockRead,ResourceLoaderAware {
     public List<Stock> getStock() throws Exception {
         List<Stock> data = new ArrayList<>();
         Scanner in = new Scanner(file);
-        String ts=String.valueOf(in.nextLine());
-        System.out.println("Stock Timestamp:\t"+ts);
+        String ts = String.valueOf(in.nextLine());
+        System.out.println("TimeStamp:\t" + ts);
         while (in.hasNext()) {
-            String [] stock = in.nextLine().split(",");
+            String[] stock = in.nextLine().split(",");
             data.add(new Stock(
                     ts,
                     Double.parseDouble(stock[0]),
@@ -76,6 +77,22 @@ public class ReadFile  implements StockRead,ResourceLoaderAware {
         return data;
     }
 
-
+    public List<Nasdaq> getNasdaq() throws Exception {
+        List<Nasdaq> data = new ArrayList<>();
+        Scanner in =new Scanner(file);
+        while(in.hasNext()){
+            String[] stock = in.nextLine().split(",");
+            data.add(new Nasdaq(
+                    Double.valueOf(stock[0]),
+                    Double.valueOf(stock[1]),
+                    Double.valueOf(stock[2]),
+                    Double.valueOf(stock[3]),
+                    Double.valueOf(stock[4]),
+                    stock[5]
+            ));
+        }
+        in.close();
+        return data;
+    }
 
 }

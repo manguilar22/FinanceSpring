@@ -1,12 +1,10 @@
 package guru.aguilar.finance.interfaces;
 
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
 
 @Component
-@Scope("prototype")
 public class Stock {
 
 
