@@ -30,17 +30,20 @@ public class FinanceApplication implements CommandLineRunner{
 	@Autowired
 	Environment env;
 
-	private AnnotationConfigApplicationContext aca = new AnnotationConfigApplicationContext(Finance.class);
-	private ReadFile readFile = aca.getBean(ReadFile.class);
+	private AnnotationConfigApplicationContext aca;
+	private ReadFile readFile; 
 
 	@Override
 	public void run(String... args) throws Exception {
-
+		/////////////////////////////////////////////////////////////////May throw error, check compilation
+		this.aca = AnnotationConfigApplicationContext(Finance.class);
+		this.readfile=aca.getBean(ReadFile.class);
+		//////////////////////////////////////////////////////////////////////////////////
 		FacebookStock  facebookStock =aca.getBean("facebook",FacebookStock.class);
 
-		List<Stock> fb = getFacebookStock();
-		List<Stock> goog = getFacebookStock();
-		List<Nasdaq> nasdaq = getNasdaqStock();
+		List<Stock> fb = getStock("facebook.2018-07-09");
+		List<Stock> goog = getStock("google.2018-07-09");
+		List<Nasdaq> nasdaq = getStock("nasdaq.2018-08-07");
 
 		fb.forEach(System.out::println);
 		goog.forEach(System.out::println);
@@ -48,18 +51,12 @@ public class FinanceApplication implements CommandLineRunner{
 
 		aca.close();
 	}
-
-	private List<Stock> getGoogleStock() throws Exception{
-		this.readFile.setFile(env.getProperty("google.2018-07-09"));
-		return this.readFile.getStock();
+	
+	private List<Stock> getStock(String s) throws Exception { 
+		this.readFile.setFile(env.getProperty(s));
+		return this.readFile.getStock(); 
 	}
-	private List<Stock> getFacebookStock() throws Exception{
-		this.readFile.setFile(env.getProperty("facebook.2018-07-09"));
-		return this.readFile.getStock();
-	}
-	private List<Nasdaq> getNasdaqStock() throws Exception{
-		this.readFile.setFile(env.getProperty("nasdaq.2018-08-07"));
-		return this.readFile.getNasdaq();
-	}
+	
 }
 
+				
