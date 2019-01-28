@@ -6,7 +6,6 @@ import org.springframework.stereotype.Component;
 import java.math.BigDecimal;
 
 @Component
-@Scope("prototype")
 public class Nasdaq {
 
     private Double IndexValue;
@@ -28,6 +27,17 @@ public class Nasdaq {
         this.TotalMarketValue = totalMarketValue;
         this.DividendMarketValue = dividendMarketValue;
         this.date = date;
+    }
+
+    public Nasdaq fastload(String [] splitString){
+        return new Nasdaq(
+                Double.parseDouble(splitString[0]),
+                Double.parseDouble(splitString[1]),
+                Double.parseDouble(splitString[2]),
+                Double.parseDouble(splitString[3]),
+                Double.parseDouble(splitString[4]),
+                String.valueOf(splitString[5])
+        );
     }
 
     public Double getIndexValue() {

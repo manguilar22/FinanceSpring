@@ -1,65 +1,39 @@
 package guru.aguilar.finance;
 
-import guru.aguilar.finance.POJO.FacebookStock;
-import guru.aguilar.finance.POJO.Nasdaq;
 import guru.aguilar.finance.POJO.ReadFile;
+import guru.aguilar.finance.POJO.Stock;
 import guru.aguilar.finance.config.Finance;
-import guru.aguilar.finance.imple.Sort;
-import guru.aguilar.finance.imple.StockAnalysis;
-import guru.aguilar.finance.interfaces.Statistics;
-import guru.aguilar.finance.interfaces.Stock;
-import javafx.css.StyleableStringProperty;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.core.env.Environment;
 
-import java.util.*;
+import java.util.DoubleSummaryStatistics;
+import java.util.List;
+import java.util.stream.Collectors;
 
-@PropertySource("default.properties")
 @SpringBootApplication
-public class FinanceApplication implements CommandLineRunner{
+@PropertySource("classpath:default.properties")
+public class FinanceApplication implements CommandLineRunner {
 
-	public static void main(String[] args) throws Exception {
+	@Value("${amazon.2019-01-28}")
+	private String amazon;
+
+
+	public static void main(String[] args) {
 		SpringApplication.run(FinanceApplication.class, args);
 	}
 
-	@Autowired
-	Environment env;
-
-	private AnnotationConfigApplicationContext aca;
-	private ReadFile readFile;
-
 	@Override
 	public void run(String... args) throws Exception {
+		AnnotationConfigApplicationContext aca = new AnnotationConfigApplicationContext(Finance.class);
+		ReadFile read = aca.getBean("readFile",ReadFile.class);
+		read.setFile(amazon);
 
-		this.aca = new AnnotationConfigApplicationContext(Finance.class);
-		this.readFile = aca.getBean(ReadFile.class);
-
-	    FacebookStock  facebookStock =aca.getBean("facebook",FacebookStock.class);
-
-		List<Stock> fb = getStock("facebook.2018-07-09");
-		List<Stock> goog = getStock("google.2018-07-09");
-		List<Nasdaq> nasdaq = getNasdaq("nasdaq.2018-08-07");
-
-		fb.forEach(System.out::println);
-		goog.forEach(System.out::println);
-		nasdaq.forEach(System.out::println);
-
-		aca.close();
-	}
-
-	private List<Stock> getStock(String propertyVal) throws Exception {
-		this.readFile.setFile(env.getProperty(propertyVal));
-		return this.readFile.getStock();
-	}
-
-	private List<Nasdaq> getNasdaq(String propertyVal) throws Exception{
-		this.readFile.setFile(env.getProperty("nasdaq.2018-08-07"));
-		this.readFile.setFile(env.getProperty(propertyVal));
-		return this.readFile.getNasdaq();
+		List<Stock> amazon = read.getStock();
+		amazon.forEach(System.out::println);
 	}
 }
+
