@@ -10,7 +10,7 @@
 * Experiment with Software Methodologies: SOLID
 	* **S**ingle responsibility principle
 	* **O**pen closed principled
-	* <p style="color:red"><b>L</b>iskov substitution principle</p>
+	* **L**iskov substitution principle
 	* **I**nterface segregation principle 
 	* **D**ependency inversion principle
 * Fancy stuff ...
