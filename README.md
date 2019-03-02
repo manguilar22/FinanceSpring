@@ -1,6 +1,21 @@
 # Finance with Spring Framework 
 
-#### Focus
+##### Objectives
+
+* Using Lambda Functions
+* Using Anonymous Functions
+* Using Pure Functions
+* Using High-Order Functions 
+* Making Collections 
+* Experiment with Software Methodologies: SOLID
+	* **S**ingle responsibility principle
+	* **O**pen closed principled
+	* <p style="color:red"><b>L</b>iskov substitution principle</p>
+	* **I**nterface segregation principle 
+	* **D**ependency inversion principle
+* Fancy stuff ...
+
+##### Focus
 
 ---
 

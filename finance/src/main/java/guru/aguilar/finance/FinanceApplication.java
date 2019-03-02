@@ -2,7 +2,9 @@ package guru.aguilar.finance;
 
 import guru.aguilar.finance.POJO.ReadFile;
 import guru.aguilar.finance.POJO.Stock;
+import guru.aguilar.finance.collections.MakeSet;
 import guru.aguilar.finance.config.Finance;
+import guru.aguilar.finance.implementation.Stats;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
@@ -14,6 +16,7 @@ import org.springframework.core.env.Environment;
 
 import java.util.DoubleSummaryStatistics;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @SpringBootApplication
@@ -32,10 +35,12 @@ public class FinanceApplication implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 		AnnotationConfigApplicationContext aca = new AnnotationConfigApplicationContext(Finance.class);
 		ReadFile read = aca.getBean("readFile",ReadFile.class);
+		MakeSet set = aca.getBean("set",MakeSet.class);
 		read.setFile(env.getProperty("amazon.2019-01-28"));
 
 		List<Stock> amazon = read.getStock();
-		amazon.forEach(System.out::println);
+		set.setFunc(e -> e.getOpen());
+		Set<Double> t = set.toSet(amazon);
 	}
 }
 
