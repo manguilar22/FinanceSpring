@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+@Scope("prototype")
 public class ReadFile  implements StockRead,ResourceLoaderAware {
 
     @Autowired

@@ -3,9 +3,7 @@
 ##### Objectives
 
 * Using Lambda Functions
-* Using Anonymous Functions
-* Using Pure Functions
-* Using High-Order Functions 
+* Using Anonymous, Pure, High-Order Functions 
 * Making Collections 
 * Experiment with Software Methodologies: SOLID
 	* **S**ingle responsibility principle

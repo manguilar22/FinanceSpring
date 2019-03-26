@@ -19,6 +19,7 @@ public class Stock {
     private Double adjVolume; 
     private String date; 
 
+    private static String stockLabel;
 
     public Stock(){ }
 
@@ -138,6 +139,10 @@ public class Stock {
     public void setDate(String date) {
         this.date = date;
     }
+
+    public void setLabel(String label){ stockLabel = label; }
+
+    public String getStockLabel(){ return stockLabel; }
 
     @Override
     public String toString() {

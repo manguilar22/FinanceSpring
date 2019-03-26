@@ -2,7 +2,7 @@ package guru.aguilar.finance.config;
 
 import guru.aguilar.finance.POJO.ReadFile;
 import guru.aguilar.finance.POJO.Stock;
-import guru.aguilar.finance.collections.MakeSet;
+import guru.aguilar.finance.collections.Collections;
 import guru.aguilar.finance.implementation.Stats;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -18,6 +18,9 @@ public class Finance {
     public ReadFile readFile() { return new ReadFile(); }
 
     @Bean
-    public MakeSet set(){return new MakeSet(); }
+    public Stats stats(){ return new Stats(); }
+
+    @Bean
+    public Collections set(){ return new Collections(); }
 
 }
