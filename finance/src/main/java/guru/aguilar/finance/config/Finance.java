@@ -4,9 +4,13 @@ import guru.aguilar.finance.POJO.ReadFile;
 import guru.aguilar.finance.POJO.Stock;
 import guru.aguilar.finance.collections.Collections;
 import guru.aguilar.finance.implementation.Stats;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
+
+import java.util.List;
 
 @Configuration
 public class Finance {
@@ -21,6 +25,6 @@ public class Finance {
     public Stats stats(){ return new Stats(); }
 
     @Bean
-    public Collections set(){ return new Collections(); }
+    public Collections collections(){ return new Collections(); }
 
 }

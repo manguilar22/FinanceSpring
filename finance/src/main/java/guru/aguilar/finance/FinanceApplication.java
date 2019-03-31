@@ -13,11 +13,8 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 
-import java.util.DoubleSummaryStatistics;
-import java.util.List;
-import java.util.Set;
-import java.util.TreeMap;
-import java.util.stream.Collectors;
+import java.util.*;
+import java.util.function.BiConsumer;
 
 @SpringBootApplication
 @PropertySource("classpath:default.properties")
@@ -34,12 +31,16 @@ public class FinanceApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		AnnotationConfigApplicationContext aca = new AnnotationConfigApplicationContext(Finance.class);
+
 		ReadFile read = aca.getBean("readFile",ReadFile.class);
 		Collections collections = aca.getBean("collections", Collections.class);
-		read.setFile(env.getProperty("amazon.2019-01-28"));
+        Stats stats = aca.getBean("stats",Stats.class);
+
+        read.setFile(env.getProperty("amazon.2019-01-28"));
 
 		List<Stock> amazon = read.getStock();
-
+		Double a = stats.summation(amazon,Stock::getClose);
+        System.out.println("Summation:\t"+a);
 	}
 }
 

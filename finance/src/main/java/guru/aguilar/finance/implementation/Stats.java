@@ -1,20 +1,13 @@
 package guru.aguilar.finance.implementation;
 
 import guru.aguilar.finance.POJO.Stock;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.DoubleSummaryStatistics;
-import java.util.IntSummaryStatistics;
-import java.util.List;
-import java.util.Set;
-import java.util.function.Function;
+import java.util.*;
 import java.util.function.ToDoubleFunction;
-import java.util.function.ToIntFunction;
+import java.util.function.ToLongFunction;
 import java.util.stream.Collectors;
 
 public class Stats {
-
-    private static ToDoubleFunction<? super Stock> mapper;
 
     public Stats(){}
 
@@ -22,4 +15,12 @@ public class Stats {
         return data.stream().collect(Collectors.summarizingDouble(mapper));
     }
 
+    public LongSummaryStatistics LongStatistics(List<Stock> data, ToLongFunction<Stock> mapper){
+        return data.stream().collect(Collectors.summarizingLong(mapper));
     }
+
+    public Double summation(List<Stock> data, ToDoubleFunction<Stock> mapper){
+        return data.stream().collect(Collectors.summingDouble(mapper));
+    }
+
+}
