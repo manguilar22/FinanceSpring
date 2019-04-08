@@ -39,8 +39,7 @@ public class FinanceApplication implements CommandLineRunner {
         read.setFile(env.getProperty("amazon.2019-01-28"));
 
 		List<Stock> amazon = read.getStock();
-		Double a = stats.summation(amazon,Stock::getClose);
-        System.out.println("Summation:\t"+a);
+
 	}
 }
 

@@ -147,7 +147,8 @@ public class Stock {
     @Override
     public String toString() {
         return "Stock{" +
-                "open=" + open +
+                "date=" + date +
+                ", open=" + open +
                 ", close=" + close +
                 ", high=" + high +
                 ", low=" + low +
@@ -157,7 +158,7 @@ public class Stock {
                 ", adjHigh=" + adjHigh +
                 ", adjLow=" + adjLow +
                 ", adjVolume=" + adjVolume +
-                ", date='" + date + '\'' +
+                '\'' +
                 '}';
     }
 
